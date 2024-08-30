@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "264574669167",
+    "project_id": "audionix-e6b5f",
+    "storage_bucket": "audionix-e6b5f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:264574669167:android:eeb734df0045d6dd23989a",
+        "android_client_info": {
+          "package_name": "com.example.audionix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDGNZaEMPixBZrkbtE64aXitJLYCUfpwMw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
