@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../common/widgets/appbar/app_bar.dart';
 import '../../../common/widgets/favorite_button/favorite_button.dart';
 import '../../../core/configs/constants/app_urls.dart';
+import '../../auth/pages/signup_or_siginin.dart';
 import '../../song_player/pages/song_player.dart';
 import '../bloc/favorite_songs_cubit.dart';
 import '../bloc/favorite_songs_state.dart';
@@ -17,18 +18,18 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const BasicAppbar(
-        backgroundColor: Color(0xff2C2B2B) ,
-        title: Text(
-          'Profile'
-        ),
+        backgroundColor: Color(0xff2C2B2B),
+        title: Text('Profile'),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-           _profileInfo(context),
-           const SizedBox(height: 30,),
-           _favoriteSongs()
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _profileInfo(context),
+            const SizedBox(height: 30),
+            _favoriteSongs(),
+          ],
+        ),
       ),
     );
   }
@@ -37,63 +38,63 @@ class ProfilePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => ProfileInfoCubit()..getUser(),
       child: Container(
-        height: MediaQuery.of(context).size.height / 3.5 ,
+        height: MediaQuery.of(context).size.height / 3.5,
         width: double.infinity,
         decoration: BoxDecoration(
           color: context.isDarkMode ? const Color(0xff2C2B2B) : Colors.white,
           borderRadius: const BorderRadius.only(
-            bottomRight: Radius.circular(50),
-            bottomLeft: Radius.circular(50)
-          )
+              bottomRight: Radius.circular(50),
+              bottomLeft: Radius.circular(50)),
         ),
-        child: BlocBuilder<ProfileInfoCubit,ProfileInfoState>(
-        builder: (context, state) {
-          if(state is ProfileInfoLoading) {
-            return Container(
-              alignment: Alignment.center,
-              child: const CircularProgressIndicator()
-            );
-          } 
-          if(state is ProfileInfoLoaded) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: 90,
-                  width: 90,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        state.userEntity.imageURL!
-                      )
-                    )
+        child: BlocBuilder<ProfileInfoCubit, ProfileInfoState>(
+          builder: (context, state) {
+            if (state is ProfileInfoLoading) {
+              return Container(
+                alignment: Alignment.center,
+                child: const CircularProgressIndicator(),
+              );
+            }
+            if (state is ProfileInfoLoaded) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 90,
+                    width: 90,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        image: NetworkImage(state.userEntity.imageURL!),
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 15,),
-                Text(
-                  state.userEntity.email!
-                ),
-                const SizedBox(height: 10,),
-                Text(
-                  state.userEntity.fullName!,
-                  style: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold
+                  const SizedBox(height: 15),
+                  Text(state.userEntity.email!),
+                  const SizedBox(height: 10),
+                  Text(
+                    state.userEntity.fullName!,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                )
-              ],
-            );
-          }
-
-          if(state is ProfileInfoFailure) {
-            return const Text(
-              'Please try again'
-            );
-          }
-          return Container();
-        }, 
-      ),
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignupOrSigninPage()));
+                      },
+                      child: Icon(Icons.logout))
+                ],
+              );
+            }
+            if (state is ProfileInfoFailure) {
+              return const Text('Please try again');
+            }
+            return Container();
+          },
+        ),
       ),
     );
   }
@@ -102,35 +103,33 @@ class ProfilePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => FavoriteSongsCubit()..getFavoriteSongs(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16
-        ),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
               'FAVORITE SONGS',
             ),
-            
-            const SizedBox(
-              height: 20,
-            ),
-            BlocBuilder<FavoriteSongsCubit,FavoriteSongsState>(
-              builder: (context,state) {
-                if(state is FavoriteSongsLoading) {
+            const SizedBox(height: 20),
+            BlocBuilder<FavoriteSongsCubit, FavoriteSongsState>(
+              builder: (context, state) {
+                if (state is FavoriteSongsLoading) {
                   return const CircularProgressIndicator();
                 }
-                if(state is FavoriteSongsLoaded) {
+                if (state is FavoriteSongsLoaded) {
                   return ListView.separated(
                     shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    // Prevents the list from scrolling independently
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.push(
-                            context, 
+                            context,
                             MaterialPageRoute(
-                              builder: (BuildContext context) => SongPlayerPage(songEntity: state.favoriteSongs[index])
-                            )
+                              builder: (BuildContext context) => SongPlayerPage(
+                                  songEntity: state.favoriteSongs[index]),
+                            ),
                           );
                         },
                         child: Row(
@@ -145,67 +144,65 @@ class ProfilePage extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                     image: DecorationImage(
                                       image: NetworkImage(
-                                        '${AppURLs.coverFirestorage}${state.favoriteSongs[index].title}.jpg?${AppURLs.mediaAlt}'
-                                      )
-                                    )
+                                          '${AppURLs.coverFirestorage}${state.favoriteSongs[index].title}.jpg?${AppURLs.mediaAlt}'),
+                                    ),
                                   ),
                                 ),
-                      
-                                const SizedBox(width: 10, ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        state.favoriteSongs[index].title,
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 16
-                                        ),
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      state.favoriteSongs[index].title,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
                                       ),
-                                      const SizedBox(height: 5, ),
-                                        Text(
-                                          state.favoriteSongs[index].artist,
-                                          style: const TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 11
-                                          ),
-                                        ),
-                                    ],
-                                  )
-                      
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      state.favoriteSongs[index].artist,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 11,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                             Row(
                               children: [
-                                Text(
-                                  state.favoriteSongs[index].duration.toString().replaceAll('.', ':')
+                                Text(state.favoriteSongs[index].duration
+                                    .toString()
+                                    .replaceAll('.', ':')),
+                                const SizedBox(width: 20),
+                                FavoriteButton(
+                                  songEntity: state.favoriteSongs[index],
+                                  key: UniqueKey(),
+                                  function: () {
+                                    context
+                                        .read<FavoriteSongsCubit>()
+                                        .removeSong(index);
+                                  },
                                 ),
-                                const SizedBox(width: 20, ),
-                                  FavoriteButton(
-                                    songEntity: state.favoriteSongs[index],
-                                    key: UniqueKey(),
-                                    function: (){
-                                      context.read<FavoriteSongsCubit>().removeSong(index);
-                                    },
-                                )
                               ],
-                            )
+                            ),
                           ],
                         ),
                       );
                     },
-                    separatorBuilder: (context, index) => const SizedBox(height: 20,),
-                    itemCount: state.favoriteSongs.length
-                 );
-                }
-                if(state is FavoriteSongsFailure) {
-                  return const Text(
-                    'Please try again.'
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 20),
+                    itemCount: state.favoriteSongs.length,
                   );
                 }
+                if (state is FavoriteSongsFailure) {
+                  return const Text('Please try again.');
+                }
                 return Container();
-              } ,
-            )
+              },
+            ),
           ],
         ),
       ),

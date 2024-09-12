@@ -1,3 +1,4 @@
+import 'package:audionix/common/helpers/is_dark_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/configs/assets/app_vectors.dart';
@@ -23,7 +24,8 @@ class _SplashPageState extends State<SplashPage> {
     return Scaffold(
       body: Center(
         child: SvgPicture.asset(
-          AppVectors.logo
+          context.isDarkMode ? AppVectors.logo_darktheme : AppVectors.logo_lighttheme,
+
         )
       ),
     );

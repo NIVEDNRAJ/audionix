@@ -44,7 +44,7 @@ class GetStartedPage extends StatelessWidget {
                   Align(
                     alignment: Alignment.topCenter,
                     child: SvgPicture.asset(
-                      AppVectors.logo
+                      AppVectors.logo_darktheme,height: 500,
                     ),
                   ),
                   const Spacer(),
@@ -58,8 +58,8 @@ class GetStartedPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 21,),
                    const Text(
-                    'Music fuels the soul, energizes the mind, and connects the world. Dive into the rhythm, embrace the melody, and let AUDIONIX be your guide on this sonic journey.',
-                    style: TextStyle(
+                          'Let music move you, inspire you, and connect you. With AUDIONIX, experience the world through sound.',
+                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       color: AppColors.grey,
                       fontSize: 13

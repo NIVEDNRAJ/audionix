@@ -13,14 +13,30 @@ class BasicAppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size.fromHeight(height ?? 80),
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: height ?? 80,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color(0xffA5033D), Color(0xffFF6F61)], // Soft, neutral gradient
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(60)), // Adjust corner radius if needed
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: Colors.black, // Text color can be adjusted
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
+            ),
+          ),
+        ),
       ),
-      child: Text(
-        title
-      )
     );
+
   }
 }

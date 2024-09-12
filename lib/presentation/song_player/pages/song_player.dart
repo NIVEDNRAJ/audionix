@@ -110,7 +110,7 @@ class SongPlayerPage extends StatelessWidget {
       builder: (context, state) {
         if(state is SongPlayerLoading){
           return const CircularProgressIndicator();
-        } 
+        }
         if(state is SongPlayerLoaded) {
           return Column(
             children: [
@@ -118,7 +118,9 @@ class SongPlayerPage extends StatelessWidget {
                 value: context.read<SongPlayerCubit>().songPosition.inSeconds.toDouble(),
                 min: 0.0,
                 max: context.read<SongPlayerCubit>().songDuration.inSeconds.toDouble() ,
-                onChanged: (value){}
+                onChanged: (value){
+                  context.read<SongPlayerCubit>().seek(Duration(seconds: value.toInt()));
+                }
              ),
              const SizedBox(height: 20,),
              Row(
@@ -143,16 +145,24 @@ class SongPlayerPage extends StatelessWidget {
               onTap: (){
                 context.read<SongPlayerCubit>().playOrPauseSong();
               },
-               child: Container(
-                height: 60,
-                width: 60,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.primary
-                ),
-                child: Icon(
-                  context.read<SongPlayerCubit>().audioPlayer.playing ? Icons.pause : Icons.play_arrow
-                ),
+               child: Row(
+                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                 children: [
+                   IconButton(onPressed: (){}, icon:Icon(Icons.skip_previous),),
+
+                   Container(
+                    height: 60,
+                    width: 60,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppColors.primary
+                    ),
+                    child: Icon(
+                      context.read<SongPlayerCubit>().audioPlayer.playing ? Icons.pause : Icons.play_arrow
+                    ),
+                   ),
+                   IconButton(onPressed: (){}, icon:Icon(Icons.skip_next),),
+                 ],
                ),
              )
             ],

@@ -14,6 +14,8 @@ abstract class AuthFirebaseService {
   Future<Either> signin(SigninUserReq signinUserReq);
 
   Future<Either> getUser();
+
+  Future<Either<String, String>> logout();
 }
 
 class AuthFirebaseServiceImpl extends AuthFirebaseService {
@@ -93,6 +95,16 @@ class AuthFirebaseServiceImpl extends AuthFirebaseService {
       return Right(userEntity);
     } catch (e) {
       return const Left('An error occurred');
+    }
+  }
+
+  @override
+  Future<Either<String, String>> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      return const Right('Logout was Successful');
+    } catch (e) {
+      return const Left('An error occurred during logout');
     }
   }
 

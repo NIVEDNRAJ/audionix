@@ -1,3 +1,4 @@
+import 'package:audionix/common/helpers/is_dark_mode.dart';
 import 'package:audionix/presentation/auth/pages/signin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,11 +20,12 @@ class SignupPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: context.isDarkMode? Color(0xff000000):Color(0xffBCBCBC),
       bottomNavigationBar: _siginText(context),
       appBar: BasicAppbar(
         title: SvgPicture.asset(
-          AppVectors.logo,
-          height: 100,
+          context.isDarkMode ? AppVectors.logo_darktheme : AppVectors.logo_lighttheme,
+          height: 110,
           width: 40,
         ),
       ),

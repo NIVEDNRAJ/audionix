@@ -34,7 +34,7 @@ class FavoriteButton extends StatelessWidget {
               icon: Icon(
                 songEntity.isFavorite ? Icons.favorite : Icons.favorite_outline_outlined,
                 size: 25,
-                color: AppColors.darkGrey,
+                color: AppColors.primary,
               )
             );
           }
@@ -49,7 +49,7 @@ class FavoriteButton extends StatelessWidget {
               icon: Icon(
                 state.isFavorite ? Icons.favorite : Icons.favorite_outline_outlined,
                 size: 25,
-                color: AppColors.darkGrey,
+                color: AppColors.primary,
               )
             );
           }

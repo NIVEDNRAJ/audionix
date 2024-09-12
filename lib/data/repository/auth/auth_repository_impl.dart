@@ -22,5 +22,10 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either> getUser() async {
     return await sl<AuthFirebaseService>().getUser();
   }
+
+  @override
+  Future<Either<String, String>> logout() async {
+    return await sl<AuthFirebaseService>().logout();
+  }
   
 }
