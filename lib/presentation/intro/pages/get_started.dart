@@ -1,3 +1,4 @@
+import 'package:audionix/presentation/auth/pages/signup_or_siginin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -80,7 +81,7 @@ Widget build(BuildContext context) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => const ChooseModePage(),
+                            builder: (_) => const SignupOrSigninPage(),
                           ),
                         );
                       },

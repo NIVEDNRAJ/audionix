@@ -1,4 +1,4 @@
-import 'package:audionix/presentation/choose_mode/bloc/theme_cubit.dart';
+import 'package:audionix/presentation/auth/bloc/theme_cubit.dart';
 import 'package:audionix/presentation/splash/pages/splash.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
