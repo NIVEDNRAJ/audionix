@@ -44,7 +44,7 @@ dependencies:
   get_it:
   dartz:
   cloud_firestore:
-  just_audio:
+  just_audio: ^0.10.5
   carousel_slider: ^5.0.0
 
 dev_dependencies:
