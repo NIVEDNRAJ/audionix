@@ -160,11 +160,14 @@ class SignupOrSigninPage extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: const Text(
+                              child: Text(
                                 'Register',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
+                                  color: context.isDarkMode
+                                      ? Colors.white
+                                      : Colors.black,
                                 ),
                               ),
                             ),
